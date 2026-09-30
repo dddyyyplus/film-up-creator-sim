@@ -1,0 +1,262 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#161725">
+  <meta name="description" content="从普通人到女性向影视解说UP主。随机选题与事件，每次选择都会改变你的成长路线。">
+  <title>从零开始做影视解说 UP 主</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%23161725'/%3E%3Crect x='11' y='15' width='42' height='34' rx='6' fill='none' stroke='%23f0ba76' stroke-width='3'/%3E%3Cpath d='m26 23 16 9-16 9z' fill='%23f0ba76'/%3E%3C/svg%3E">
+  <style>
+    :root { color-scheme:dark; --bg:#161725; --panel:#23283c; --ink:#f7f2ed; --muted:#b3b8c8; --gold:#f0ba76; --line:#ffffff25; --good:#a5dfba; --bad:#f3b4a8; }
+    * { box-sizing:border-box; }
+    body { margin:0; min-height:100vh; background:radial-gradient(circle at 50% -150px,#414264 0,#24253c 37%,var(--bg) 75%); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"PingFang SC","Microsoft YaHei",sans-serif; }
+    button { font:inherit; cursor:pointer; -webkit-tap-highlight-color:transparent; }
+    .page { width:min(100%,780px); min-height:100vh; margin:auto; padding:20px 18px max(35px,env(safe-area-inset-bottom)); }
+    .top { display:flex; align-items:center; justify-content:space-between; gap:12px; }
+    .brand { color:var(--gold); display:flex; align-items:center; gap:9px; font-weight:800; letter-spacing:.1em; font-size:13px; }
+    .brand-mark { border:1px solid var(--gold); border-radius:9px; width:31px; height:31px; display:grid; place-items:center; font-size:17px; }
+    .reset { border:1px solid #8b849a; border-radius:10px; color:#e2d8e8; background:transparent; padding:9px 12px; min-height:38px; font-size:12px; }
+    .reset:hover,.reset:focus-visible { border-color:var(--gold); }
+    .hero { padding:29px 2px 22px; }
+    .eyebrow { color:var(--gold); letter-spacing:.18em; font-size:12px; font-weight:800; }
+    h1 { font-family:serif; font-size:clamp(35px,9vw,64px); line-height:1.13; font-weight:650; letter-spacing:.02em; margin:9px 0 10px; }
+    .hero p { color:var(--muted); line-height:1.7; margin:0; font-size:14px; }
+    .ticket { display:flex; justify-content:space-between; align-items:center; gap:8px; color:#bdadc3; font-size:12px; margin:0 0 13px; }
+    .ticket b { color:var(--gold); }
+    .bar { height:5px; width:100%; border-radius:10px; background:#54556b; overflow:hidden; margin-bottom:17px; }
+    .bar span { display:block; height:100%; width:0; background:linear-gradient(90deg,#f0ba76,#f0db9b); transition:width .2s; }
+    .hud { display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px; }
+    .stat { background:#ffffff0b; border:1px solid #ffffff13; border-radius:11px; padding:11px 12px; min-width:0; }
+    .stat span { display:block; font-size:11px; color:#aeb4c3; margin-bottom:3px; }
+    .stat b { font-size:17px; line-height:1.2; font-variant-numeric:tabular-nums; white-space:nowrap; }
+    .card { border:1px solid var(--line); border-radius:21px; padding:27px 25px 25px; background:linear-gradient(155deg,#31324b 0,#242a3e 48%,#1d2536 100%); box-shadow:0 22px 55px #090b1788; position:relative; overflow:hidden; }
+    .card::after { content:""; width:210px; height:210px; position:absolute; top:-125px; right:-92px; border:1px solid #ffffff0b; border-radius:50%; box-shadow:0 0 0 42px #ffffff03,0 0 0 80px #ffffff02; pointer-events:none; }
+    .scene { position:relative; z-index:1; animation:enter .25s ease-out; }
+    @keyframes enter { from {opacity:0; transform:translateY(7px)} to {opacity:1; transform:translateY(0)} }
+    .scene-label { color:var(--gold); font-size:12px; font-weight:800; letter-spacing:.16em; margin-bottom:12px; }
+    h2 { font-family:serif; font-size:clamp(26px,6.5vw,37px); font-weight:600; line-height:1.28; margin:0 0 15px; }
+    .story { color:#e1e4ec; font-size:15px; line-height:1.85; }
+    .story p { margin:0 0 13px; }
+    .story strong { color:#f9d39d; }
+    .beat { border-left:2px solid var(--gold); border-radius:0 10px 10px 0; background:#f0ba7614; padding:12px 14px; color:#f1dfc7; margin:16px 0; font-size:14px; line-height:1.7; }
+    .choices { display:grid; gap:10px; margin-top:23px; }
+    .choice { width:100%; min-height:60px; padding:13px 15px; border:1px solid #70738a; border-radius:13px; color:var(--ink); background:#ffffff09; display:flex; align-items:center; justify-content:space-between; gap:13px; text-align:left; line-height:1.45; transition:background .15s,border-color .15s,transform .15s; }
+    .choice:hover,.choice:focus-visible { border-color:var(--gold); background:#f0ba7619; }
+    .choice:disabled { opacity:.45; cursor:not-allowed; }
+    .choice:active { transform:scale(.99); }
+    .choice strong { display:block; font-size:15px; }
+    .choice small { display:block; color:#aeb4c5; font-size:12px; margin-top:4px; }
+    .choice::after { content:"→"; flex:none; color:var(--gold); font-size:19px; }
+    .choice.primary { background:var(--gold); color:#25243a; border-color:var(--gold); font-weight:800; }
+    .choice.primary::after { color:#25243a; }
+    .choice.primary small { color:#484053; }
+    .delta { display:flex; flex-wrap:wrap; gap:7px; margin:16px 0; }
+    .delta span { border:1px solid #ffffff25; border-radius:999px; padding:5px 9px; font-size:12px; }
+    .delta .good { color:var(--good); }.delta .bad { color:var(--bad); }
+    .metrics { display:grid; grid-template-columns:1fr 1fr; gap:9px; margin:17px 0; }
+    .metric { border:1px solid #ffffff27; background:#ffffff0a; border-radius:12px; padding:13px 14px; }
+    .metric span { display:block; font-size:12px; color:#aeb7c8; margin-bottom:4px; }.metric b { font-size:23px; font-variant-numeric:tabular-nums; }
+    .timeline { margin-top:18px; border-top:1px solid #ffffff25; padding-top:16px; }
+    .timeline h3 { font-size:14px; color:var(--gold); margin:0 0 11px; }
+    .timeline p { color:#cbd0df; margin:0 0 10px; font-size:12px; line-height:1.6; }
+    .foot { color:#838aa1; text-align:center; font-size:11px; line-height:1.65; margin-top:22px; }
+    @media(max-width:520px) { .page { padding:17px 13px max(28px,env(safe-area-inset-bottom)); }.hero { padding:27px 2px 20px; }.hud { gap:6px; }.stat { padding:10px 9px; }.stat b { font-size:15px; }.card { border-radius:18px; padding:24px 18px 22px; }.choice { min-height:58px; } }
+    @media(prefers-reduced-motion:reduce) { *,*::before,*::after { animation-duration:.01ms!important; transition-duration:.01ms!important; } }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="top"><div class="brand"><span class="brand-mark" aria-hidden="true">▶</span>影视解说成长模拟</div><button class="reset" id="reset" type="button">开启新人生</button></header>
+    <div class="hero"><div class="eyebrow">从第一条视频开始</div><h1>从零开始做影视解说 UP 主</h1><p>一年，十二次关键选择。从人物与剧情出发，做出属于自己的女性向影视解说频道。</p></div>
+    <div class="ticket"><span id="run-id">人生编号</span><b id="month-label">选择方向</b></div>
+    <div class="bar" aria-label="年度进度"><span id="progress"></span></div>
+    <div class="hud" id="hud" aria-label="当前状态"></div>
+    <section class="card" id="card" aria-live="polite" aria-atomic="true"></section>
+    <div class="foot">事件和结果由浏览器随机计算 · 不调用 AI，游玩不消耗 API token</div>
+  </main>
+  <script>
+    (() => {
+      'use strict';
+      const backgrounds=[
+        {name:'刚下班的普通打工人',desc:'白天工作，晚上剪片。存款稍多，精力有限。',energy:62,money:2300,skill:16,rep:50},
+        {name:'临近毕业的学生',desc:'时间多一点，预算少一点，想证明自己的审美。',energy:83,money:650,skill:14,rep:50},
+        {name:'刚辞职的自由职业者',desc:'把空出来的时间全投进创作，现金流却很紧。',energy:75,money:1200,skill:20,rep:50},
+        {name:'会一点剪辑的普通观众',desc:'热爱看片，却第一次认真面对投稿按钮。',energy:74,money:1100,skill:22,rep:48}
+      ];
+      const niches=[
+        {id:'character',name:'人物分析',desc:'研究人物动机与成长，讨论深，容易积累忠实观众。',skill:5,rep:3,energy:-2,boost:1.06,risk:.015},
+        {id:'plot',name:'剧情拆解',desc:'梳理伏笔与叙事结构，更新速度很重要。',skill:3,rep:0,energy:2,boost:1.15,risk:.025},
+        {id:'relationship',name:'情感关系',desc:'从关系与沟通切入，讨论热烈，也容易有争议。',skill:2,rep:1,energy:0,boost:1.12,risk:.02},
+        {id:'women',name:'女性视角',desc:'关注女性的处境与选择，表达要有证据和分寸。',skill:4,rep:6,energy:-3,boost:1.04,risk:.01}
+      ];
+      const works=[
+        {title:'知否知否应是绿肥红瘦',angles:['人物成长与选择','家庭关系的叙事','配角的立场']},
+        {title:'婚姻故事',angles:['关系中的沟通失灵','人物立场的变化','一场争执的叙事节奏']},
+        {title:'花束般的恋爱',angles:['亲密关系与日常','人物期待的变化','细节如何讲故事']},
+        {title:'重启人生',angles:['女性友谊与选择','反复与成长的叙事','平凡生活的戏剧性']},
+        {title:'小妇人',angles:['姐妹之间的差异','人物理想与现实','女性成长的叙述']},
+        {title:'请回答1988',angles:['群像关系','家庭与青春','日常细节的力量']},
+        {title:'俗女养成记',angles:['女性成长与自我定义','代际关系','喜剧与伤感如何并存']},
+        {title:'三十而已',angles:['人物选择与代价','都市女性关系','剧情冲突的设置']},
+        {title:'伦敦生活',angles:['人物的自我保护','幽默背后的情绪','视角与叙事技巧']},
+        {title:'82年生的金智英',angles:['个人处境与社会期待','日常细节的表达','人物声音如何被听见']},
+        {title:'她和她的她',angles:['人物记忆与叙事','女性关系','悬念背后的主题']},
+        {title:'傲骨贤妻',angles:['职业与家庭的选择','人物的长期成长','关系中的权力变化']}
+      ];
+      const trends=[{text:'突然被重新讨论',boost:1.18},{text:'刚好遇上平台话题活动',boost:1.12},{text:'讨论不算热，却有一群认真观众',boost:.91},{text:'因一条短视频片段再次翻红',boost:1.25}];
+      const events=[
+        {title:'一条人物分析突然被推荐',text:'你刚发的长解说在深夜多了许多陌生评论。有人夸你的视角，也有人催你马上分析另一位角色。',options:[
+          {label:'熬夜做同剧集的第二期',hint:'有机会趁热涨粉；会很累',effect:{energy:-18,skill:2},quality:12,heat:28,viral:.07,line:'你把脚本改到天亮，第二期赶上了讨论热度。'},
+          {label:'认真回复不同解读',hint:'口碑更稳，涨粉不一定最快',effect:{energy:-8,rep:7},quality:6,heat:6,viral:0,line:'你逐条回应观点，评论区开始有了愿意认真讨论的人。'},
+          {label:'按原计划继续做自己的选题',hint:'保存精力，热度可能过去',effect:{energy:7,rep:2},quality:-4,heat:-8,viral:-.02,line:'你忍住了追更冲动，把下一条分析磨得更完整。'}]},
+        {title:'一段剧集素材正在刷屏',text:'一个片段正在全站流传。你想到很好的解读角度，但还没确认素材使用方式是否合适。',options:[
+          {label:'先发再说，抢热点',hint:'流量高，素材与口碑有风险',effect:{energy:-10,rep:-8},quality:4,heat:25,viral:.09,copyright:.34,line:'解说迅速被刷到，素材使用提醒也可能随时出现。'},
+          {label:'缩短引用，补充自己的分析',hint:'花时间，内容更稳',effect:{energy:-14,skill:5,rep:4},quality:10,heat:5,viral:.02,line:'你重新写了论证，画面只是辅助，观点变成了主角。'},
+          {label:'放弃热点，选一部想长期聊的作品',hint:'少一点即时热度，多一点风格',effect:{energy:-7,skill:3,rep:2},quality:3,heat:-5,viral:0,line:'你没有追热搜，却多了一期真正像自己的解说。'}]},
+        {title:'长解说的工程文件损坏',text:'软件突然闪退，写了三天的人物分析只剩半成品。你盯着屏幕，已经凌晨一点。',options:[
+          {label:'花钱升级硬盘和备份',hint:'花钱，之后制作更稳定',effect:{money:-450,energy:-4,skill:3},quality:8,heat:0,viral:0,flag:'backup',line:'你咬牙买下硬盘，从此记住了备份。'},
+          {label:'熬夜从头再剪',hint:'保住更新，精力大减',effect:{energy:-24,skill:4},quality:7,heat:4,viral:0,line:'太阳升起时，你终于点下导出。'},
+          {label:'坦诚说明，延期发布',hint:'精力回升，少一点当月播放',effect:{energy:12,rep:3},quality:-12,heat:-7,viral:-.01,line:'你发了延期说明，观众比你想象中更能理解。'}]},
+        {title:'影视区大 UP 主发来合作私信',text:'对方想一起做一期剧集群像分析，但要求你承担大部分查资料、写稿和剪辑，还想拿走全部署名。',options:[
+          {label:'先答应，换一次曝光',hint:'可能涨粉，口碑和精力有代价',effect:{energy:-18,rep:-5},quality:7,heat:23,viral:.07,line:'合作带来了新观众，你却开始想自己的名字去了哪里。'},
+          {label:'把分工与署名谈清楚',hint:'机会未必成，尊重更长久',effect:{energy:-9,rep:6,skill:2},quality:8,heat:12,viral:.03,line:'你认真谈完条件，合作变成了真正的双向创作。'},
+          {label:'礼貌拒绝，做独立企划',hint:'保住自主权，流量慢一点',effect:{energy:-7,rep:3,skill:3},quality:4,heat:-3,viral:0,line:'你把时间留给自己的企划，风格又清晰了一点。'}]},
+        {title:'评论区说你只会复述剧情',text:'一条长评指出你的梳理很清楚，却没有新的观点。赞同的人越来越多。',options:[
+          {label:'重写脚本，补足人物动机与证据',hint:'分析力与口碑提升，耗精力',effect:{energy:-14,skill:6,rep:7},quality:13,heat:1,viral:.01,line:'你第一次把论点放在剧情概述之前。'},
+          {label:'和评论区吵到底',hint:'讨论度上涨，口碑可能受损',effect:{energy:-8,rep:-12},quality:-3,heat:24,viral:.05,line:'争论把数据顶了上去，也让一些老观众离开。'},
+          {label:'做一期“我是怎么分析的”复盘',hint:'透明沟通，稳住信任',effect:{energy:-9,skill:3,rep:5},quality:7,heat:4,viral:0,line:'你展示了查资料和改稿的过程，观众看见了你的思考。'}]},
+        {title:'品牌商递来第一份合同',text:'报价很诱人，但产品你从没用过。对方要求“真实推荐”，下周就要上线。',options:[
+          {label:'直接接，先解决生活费',hint:'收入高，口碑风险明显',effect:{money:1200,energy:-10,rep:-12},quality:3,heat:8,viral:.02,line:'账户终于宽裕了一点，你却不太敢打开评论区。'},
+          {label:'要求试用并保留真实评价',hint:'收入较少，信任更重要',effect:{money:500,energy:-12,rep:7},quality:7,heat:0,viral:0,line:'你删掉夸张话术，留下真实体验。'},
+          {label:'拒绝，继续只发自己的作品',hint:'不赚钱，但创作边界更清晰',effect:{energy:4,rep:4,money:-120},quality:4,heat:-2,viral:0,line:'你把合同关掉，继续剪自己想剪的片子。'}]},
+        {title:'“十分钟讲完一部剧”模板爆红',text:'同样的标题、同样的讲法，很多账号都在做。你也能很快剪出一条，但这不是你最想做的分析。',options:[
+          {label:'立刻跟进，抓住流量',hint:'更容易被刷到，辨识度下降',effect:{energy:-10,rep:-3},quality:2,heat:26,viral:.07,line:'视频很快被刷到，也很快和别人的解说混在一起。'},
+          {label:'借它的节奏，加入自己的观点',hint:'练表达，适度追热点',effect:{energy:-13,skill:6,rep:3},quality:12,heat:9,viral:.03,line:'你拆解了模板，最后做出了不像模板的人物分析。'},
+          {label:'继续自己的长分析系列',hint:'短期低热，系列感增加',effect:{energy:-8,skill:2,rep:5},quality:5,heat:-5,viral:0,line:'老观众认出了你的论述方式，开始等下一期。'}]},
+        {title:'平台征集年度影视解说',text:'活动只剩四天，获选作品会得到首页展示。你手头有一条没做完的角色分析。',options:[
+          {label:'集中四天冲奖项',hint:'可能大涨粉，也容易透支',effect:{energy:-22,money:-180,skill:3},quality:14,heat:17,viral:.1,line:'你把四天的睡眠剪进了时间线，按下提交。'},
+          {label:'找另一位创作者组队',hint:'合作概率与口碑提高',effect:{energy:-13,rep:5,skill:2},quality:9,heat:12,viral:.05,line:'有人负责画面，有人负责节奏，作品开始有了新的层次。'},
+          {label:'不参赛，照顾已有系列',hint:'成长稳健，错过一次曝光',effect:{energy:6,rep:3},quality:3,heat:-7,viral:-.01,line:'你错过了活动，却按时更新了自己的系列。'}]},
+        {title:'看剧看到审美疲劳',text:'你为写解说连看好几部剧，笔记却越来越空。以前喜欢的角色和镜头都变得普通。',options:[
+          {label:'休息两天，去看点别的',hint:'恢复精力，减少当月更新',effect:{energy:21,rep:1},quality:-11,heat:-5,viral:-.01,line:'你去散了步，回来后终于看见新的剪法。'},
+          {label:'换一种完全陌生的风格',hint:'有风险，也可能突破瓶颈',effect:{energy:-13,skill:7},quality:11,heat:2,viral:.04,line:'这条视频不太像以前的你，却让你重新兴奋起来。'},
+          {label:'硬撑着把本期做完',hint:'维持更新，精力大减',effect:{energy:-25,rep:-2},quality:1,heat:4,viral:0,line:'进度条走完了，你却没有点开成片再看一遍。'}]},
+        {title:'粉丝寄来一整份拉片笔记',text:'有人把自己对一部作品的长篇笔记发给你，想和你一起聊聊一位被忽略的女性角色。',options:[
+          {label:'认真做一期粉丝共创',hint:'口碑明显上升，耗时',effect:{energy:-16,skill:3,rep:10},quality:11,heat:8,viral:.03,line:'你认真署名并加入自己的分析，评论区开始分享更多不同视角。'},
+          {label:'只挑最容易引战的观点',hint:'播放可能高，信任受损',effect:{energy:-8,rep:-7},quality:5,heat:20,viral:.05,line:'争议片段冲了起来，寄笔记的人却没有转发。'},
+          {label:'邀请粉丝一起核对论点',hint:'成长慢一点，社区更强',effect:{energy:-12,skill:4,rep:8},quality:7,heat:2,viral:0,line:'你公开了参考资料，越来越多人愿意认真讨论文本。'}]},
+        {title:'账号被质疑“照搬别人的解读”',text:'一条相似观点被人翻出，评论区开始问你是否照抄。你知道自己的论证与对方并不一样。',options:[
+          {label:'公开参考资料与写稿过程',hint:'费时间，最能恢复信任',effect:{energy:-13,rep:9,skill:2},quality:6,heat:3,viral:0,line:'你把参考资料和稿件版本摆出来，误会慢慢散去。'},
+          {label:'删评论，等热度过去',hint:'省事，但口碑可能继续跌',effect:{energy:-3,rep:-13},quality:-4,heat:7,viral:.01,line:'评论少了，疑问却没有消失。'},
+          {label:'做一期观点对比解析',hint:'化争议为内容，结果有波动',effect:{energy:-14,rep:4,skill:4},quality:9,heat:13,viral:.04,line:'你逐条解释自己的论证，一些质疑者变成了订阅者。'}]},
+        {title:'一个朋友邀请你进剪辑工作室',text:'固定工资、稳定项目，但个人账号可能没法保持每周更新。',options:[
+          {label:'加入工作室，边做边学',hint:'收入和能力提高，更新慢一点',effect:{money:850,skill:6,energy:-11},quality:4,heat:-8,viral:0,line:'你学到了团队流程，也开始重新安排个人账号。'},
+          {label:'兼职合作，保留自己的节奏',hint:'平衡收入、成长与精力',effect:{money:380,skill:3,energy:-13,rep:2},quality:7,heat:3,viral:.01,line:'白天帮朋友做项目，晚上依然保留一段属于自己的时间。'},
+          {label:'拒绝，专心做个人频道',hint:'保住自由，现金压力增加',effect:{money:-180,energy:2,rep:2},quality:9,heat:5,viral:.02,line:'你把邀约存进收藏夹，继续经营自己的小频道。'}]},
+        {title:'一条旧视频突然被翻红',text:'几个月前没人看的作品，今天忽然被很多人转发。新观众正等着点开你的主页。',options:[
+          {label:'把旧系列补全',hint:'能留住新观众，耗精力',effect:{energy:-17,skill:3},quality:10,heat:18,viral:.06,line:'你补上了曾经搁置的第二集，旧坑终于有人一起追。'},
+          {label:'优化主页和置顶简介',hint:'涨粉转化更稳',effect:{energy:-7,rep:4},quality:5,heat:9,viral:.02,line:'你把作品重新整理，新来的观众很快找到自己喜欢的一期。'},
+          {label:'趁热开启直播聊天',hint:'亲近观众，也有翻车风险',effect:{energy:-12,rep:1},quality:5,heat:16,viral:.04,line:'第一次直播有些手忙脚乱，却有人说终于见到了屏幕后的人。'}]},
+        {title:'家人问你：这个真能做下去吗',text:'饭桌上没有人嘲笑你，但那句关心让你开始怀疑自己。电脑里还有一条没剪完的视频。',options:[
+          {label:'展示数据，也坦白困难',hint:'恢复状态，口碑不变',effect:{energy:13,money:100},quality:2,heat:0,viral:0,line:'你第一次认真算了账，也第一次说清自己为什么喜欢创作。'},
+          {label:'拿出成片证明自己',hint:'能力提升，精力减少',effect:{energy:-16,skill:5,rep:2},quality:11,heat:7,viral:.02,line:'你没有争辩，几天后把新作品给他们看。'},
+          {label:'先找份兼职，减轻压力',hint:'有现金缓冲，更新变慢',effect:{money:620,energy:-8},quality:-7,heat:-8,viral:-.01,line:'收入让你踏实了一些，只是时间线推进得更慢。'}]},
+        {title:'有人提议做“女性角色观察”系列',text:'这个企划至少要做三个月，从不同作品中选一位角色认真分析。它可能让观众记住你，也可能让你被一个主题困住。',options:[
+          {label:'认真规划，做成系列',hint:'长期涨粉潜力更大',effect:{energy:-15,skill:4,rep:4},quality:10,heat:5,viral:.04,flag:'series',line:'你把标题写进计划表，第一次有了真正属于自己的栏目。'},
+          {label:'先做一集试水',hint:'风险较小，影响中等',effect:{energy:-9,skill:2},quality:6,heat:4,viral:.02,line:'第一集发出后，你认真记录观众最喜欢的部分。'},
+          {label:'继续自由选题',hint:'保留变化，系列积累较少',effect:{energy:3,rep:1},quality:3,heat:1,viral:0,line:'你不想被计划表绑住，继续在不同题材之间找惊喜。'}]}
+      ];
+      const specialEvents={
+        burnout:{title:'身体先按下了暂停键',text:'你连着几个月熬夜查资料和剪片，打开熟悉的作品也提不起兴趣。这个月必须改变节奏。',options:[
+          {label:'停更一个月，认真休息',hint:'恢复大量精力，当月流量下降',effect:{energy:38,rep:2},quality:-22,heat:-15,viral:-.03,line:'你发了停更说明，走出房间晒了很久的太阳。'},
+          {label:'请朋友帮忙分担剪辑',hint:'花钱，保住更新与精力',effect:{money:-350,energy:23,rep:3},quality:2,heat:1,viral:0,line:'你第一次把时间线交给别人，终于能睡个整觉。'},
+          {label:'继续硬撑更新',hint:'可能保住播放，健康与口碑危险',effect:{energy:-15,rep:-7},quality:-8,heat:8,viral:.01,line:'视频如期发出，稿子里却多了几个你本不会犯的错误。'}]},
+        trust:{title:'观众开始不信任你的分析',text:'前几次争议叠在一起，有人质疑你为了流量故意断章取义。评论区开始互相转发旧视频。',options:[
+          {label:'逐期补充来源与勘误',hint:'费时，口碑明显恢复',effect:{energy:-16,rep:15,skill:3},quality:7,heat:-4,viral:0,line:'你认真改了错误，也把观点和事实分开讲清楚。'},
+          {label:'发一条情绪化回应',hint:'短期讨论高，口碑可能更差',effect:{energy:-8,rep:-12},quality:-5,heat:22,viral:.03,line:'讨论声量更大了，愿意认真听你说话的人却更少。'},
+          {label:'暂时不回应，换个话题',hint:'省力，信任修复缓慢',effect:{energy:8,rep:1},quality:-4,heat:-7,viral:-.01,line:'你先退后一步，争议慢慢降温，但问题还在。'}]},
+        growth:{title:'编辑推荐邀请你做专题',text:'你的系列被编辑注意到，对方建议你做一期跨作品的女性角色专题，时间却很紧。',options:[
+          {label:'查资料做完整专题',hint:'内容力与口碑提升，有机会破圈',effect:{energy:-19,skill:5,rep:6},quality:16,heat:14,viral:.09,line:'你把几部作品的线索并排摆开，专题让新观众认识了你。'},
+          {label:'请同行一起做双人讨论',hint:'平衡工作量，增加曝光',effect:{energy:-12,rep:4,money:-120},quality:10,heat:12,viral:.05,line:'两种视角碰撞出新的问题，评论区也开始认真讨论。'},
+          {label:'婉拒，先把手头系列做完',hint:'保住节奏，错过一次曝光',effect:{energy:7,rep:2},quality:4,heat:-4,viral:0,line:'你没有接下专题，却按自己的节奏完成了正在做的系列。'}]}
+      };
+      const card=document.getElementById('card'),hud=document.getElementById('hud'),runId=document.getElementById('run-id'),monthLabel=document.getElementById('month-label'),progress=document.getElementById('progress');
+      let game;
+      function rand(max){if(globalThis.crypto?.getRandomValues){const n=new Uint32Array(1);crypto.getRandomValues(n);return n[0]%max}return Math.floor(Math.random()*max)}
+      function chance(){return rand(10000)/10000}
+      function shuffle(items){const out=items.slice();for(let i=out.length-1;i>0;i--){const j=rand(i+1);[out[i],out[j]]=[out[j],out[i]]}return out}
+      function clamp(n,a,b){return Math.max(a,Math.min(b,n))}
+      function fmt(n){return Math.round(n).toLocaleString('zh-CN')}
+      function makeGame(){const background=backgrounds[rand(backgrounds.length)];return {id:String(1000+rand(9000)),background,niche:null,month:0,phase:'start',deck:shuffle(events),works:shuffle(works),currentEvent:null,currentWork:null,currentTrend:null,currentAngle:null,specialSeen:{},followers:0,skill:background.skill,energy:background.energy,rep:background.rep,money:background.money,backup:false,series:false,history:[],last:null}}
+      function prepareMonth(){const g=game;g.currentWork=g.works[g.month-1];g.currentAngle=g.currentWork.angles[rand(g.currentWork.angles.length)];g.currentTrend=trends[rand(trends.length)];if(g.energy<25&&!g.specialSeen.burnout){g.currentEvent=specialEvents.burnout;g.specialSeen.burnout=true}else if(g.rep<30&&!g.specialSeen.trust){g.currentEvent=specialEvents.trust;g.specialSeen.trust=true}else if(g.followers>3000&&g.month>=6&&!g.specialSeen.growth){g.currentEvent=specialEvents.growth;g.specialSeen.growth=true}else g.currentEvent=g.deck[g.month-1]}
+      function actionButton(label,detail,index,primary=false,disabled=false){return `<button type="button" class="choice${primary?' primary':''}" data-index="${index}" ${disabled?'disabled':''}><span><strong>${label}</strong>${detail?`<small>${detail}</small>`:''}</span></button>`}
+      function panel(label,title,text,buttons,extra=''){return `<div class="scene"><div class="scene-label">${label}</div><h2 id="scene-title" tabindex="-1">${title}</h2><div class="story">${text}</div><div class="choices">${buttons}</div>${extra}</div>`}
+      function renderHud(){hud.replaceChildren();for(const [label,value] of [['粉丝',fmt(game.followers)],['内容力',game.skill],['精力',game.energy],['口碑',game.rep],['余额','¥'+fmt(game.money)],['方向',game.niche?.name||'待选择']]){const el=document.createElement('div');el.className='stat';const l=document.createElement('span');l.textContent=label;const b=document.createElement('b');b.textContent=value;el.append(l,b);hud.append(el)}}
+      function ending(){
+        const g=game;let title,desc;
+        if(g.rep<25){title='争议流量的代价';desc='你确实被很多人看见了，却也开始不敢点开评论区。下一段路，需要先重新赢回信任。'}
+        else if(g.energy<12){title='爆更之后，按下暂停';desc='你剪出了许多片子，也把自己剪得太疲惫。停下来不是失败，是给下一次创作留一点力气。'}
+        else if(g.followers>=30000){title='破圈的影视解说新星';desc='你的人物分析被更多人看见，甚至有人开始引用你的观点。现在，最难的是继续做自己。'}
+        else if(g.followers>=7000){title='稳定成长的 UP 主';desc='你有了会等更新的观众，也学会在数据和生活之间找到自己的节奏。'}
+        else if(g.followers>=800){title='小众宝藏创作者';desc='数字不算夸张，但愿意看完的人越来越多。属于你的风格，正在慢慢成形。'}
+        else {title='还在路上的新人';desc='这一年没有突然爆红，却留下了一整条学习曲线。下一次开局，或许会遇到完全不同的机会。'}
+        return {title,desc}
+      }
+      function render(){
+        const g=game;renderHud();runId.textContent='人生编号 #'+g.id;monthLabel.textContent=g.phase==='start'?'选择方向':g.phase==='end'?'一年后':`第 ${g.month} / 12 个月`;progress.style.width=(g.phase==='start'?0:g.phase==='end'?100:Math.round(g.month/12*100))+'%';
+        let html='';
+        if(g.phase==='start'){
+          html=panel('开局 · 你只是一个普通人','第一条解说还没发出去',`<p>你的身份是<strong>${g.background.name}</strong>。${g.background.desc}</p><p>某天深夜，你看完一部作品，想从女性角色的经历聊起。你打开剪辑软件，决定认真试一年。没有团队，也没有观众。你的第一步是确定自己的分析方向。</p><div class="beat">每局会重新抽取身份、影视选题、事件顺序和投稿结果。每个选择都会改变后续的数据、事件与结局。</div>`,niches.map((n,i)=>actionButton(n.name,n.desc,i)).join(''));
+        }else if(g.phase==='event'){
+          const e=g.currentEvent;
+          const context=g.energy<25?'你已经明显疲惫，继续硬撑会拖累作品质量。':g.money<250?'余额见底，任何花钱的决定都要认真权衡。':g.followers>5000?'现在有不少观众等着你的下一条更新。':'你还在摸索，任何一次尝试都可能带来转机。';
+          html=panel(`第 ${g.month} 个月 · ${g.niche.name}`,e.title,`<p>本月选题是<strong>《${g.currentWork.title}》</strong>，你打算从<strong>${g.currentAngle}</strong>切入；这部作品${g.currentTrend.text}。</p><p>${e.text}</p><div class="beat">${context}</div><p>你会怎么做？</p>`,e.options.map((o,i)=>actionButton(o.label,o.hint,i,false,(o.effect.money||0)<0&&g.money<-(o.effect.money||0))).join(''));
+        }else if(g.phase==='result'){
+          const r=g.last;const delta=r.delta.map(d=>`<span class="${d.value>=0?'good':'bad'}">${d.label} ${d.value>0?'+':''}${fmt(d.value)}</span>`).join('');
+          html=panel(`第 ${g.month} 个月 · 投稿结果`,r.title,`<p>${r.line}</p><div class="metrics"><div class="metric"><span>本月播放</span><b>${fmt(r.views)}</b></div><div class="metric"><span>新增粉丝</span><b>+${fmt(r.gained)}</b></div></div>${r.extra?`<div class="beat">${r.extra}</div>`:''}<p>你的决定留下了痕迹。下一月，新的事情正在发生。</p>`,actionButton(g.month===12?'查看一年后的结局':'进入下个月','',0,true),`<div class="delta">${delta}</div>`);
+        }else{
+          const end=ending();const recent=g.history.slice(-4).map(h=>`<p>第 ${h.month} 月 · 《${h.work}》：${h.choice}，新增 ${fmt(h.gained)} 位粉丝。</p>`).join('');
+          html=panel('一年后 · 你的频道',end.title,`<p>${end.desc}</p><div class="beat">最终成绩：<strong>${fmt(g.followers)} 粉丝</strong> · 内容力 ${g.skill} · 口碑 ${g.rep} · 余额 ¥${fmt(g.money)}</div><p>每次重开，身份、作品、事件、运气和选择都会让路线重新分岔。</p>`,actionButton('再来一局全新人生','重新抽取所有选题和事件',0,true),`<div class="timeline"><h3>最后几个月</h3>${recent}</div>`);
+        }
+        card.innerHTML=html;if(g.phase!=='start')document.getElementById('scene-title').focus({preventScroll:true});
+      }
+      function applyChoice(index){
+        const g=game,e=g.currentEvent,o=e.options[index];if(!o||(o.effect.money||0)<0&&g.money<-(o.effect.money||0))return;
+        const before={skill:g.skill,energy:g.energy,rep:g.rep,money:g.money};
+        for(const key of ['skill','energy','rep','money'])g[key]+=o.effect[key]||0;
+        g.skill=clamp(g.skill,0,100);g.energy=clamp(g.energy,0,100);g.rep=clamp(g.rep,0,100);g.money=Math.max(0,g.money);
+        if(o.flag==='backup')g.backup=true;if(o.flag==='series')g.series=true;
+        const fatigue=g.energy<20?.55:g.energy<40?.78:1;
+        const base=(190+g.followers*.66+g.skill*23+g.rep*9)*g.niche.boost*g.currentTrend.boost*(g.backup?1.04:1)*(1+(o.quality+o.heat)/100)*fatigue;
+        let views=Math.max(80,Math.round(base*(.62+chance()*1.05)));
+        const viralChance=clamp(.035+g.skill/1100+g.rep/1800+(o.viral||0)+(g.series?.025:0),.01,.32);
+        const viral=chance()<viralChance;
+        if(viral)views=Math.round(views*(3.2+chance()*7));
+        let extra=viral?'这期解说被更多人刷到，评论提醒响个不停。':'';
+        if(g.niche.risk&&chance()<g.niche.risk+(o.copyright||0)){
+          const loss=Math.round(views*.45);views-=loss;g.rep=clamp(g.rep-7,0,100);extra+=' 素材版权提醒让播放受限，口碑也受到影响。';
+        }
+        if(g.backup)extra+=' 规范的备份流程让后续制作更稳定。';
+        let gained=Math.max(1,Math.round(views*(.012+g.rep/3000+(o.quality||0)/4000)));
+        if(g.series)gained=Math.round(gained*1.08);
+        g.followers+=gained;
+        g.energy=clamp(g.energy+7,0,100);
+        g.money=Math.max(0,g.money-70);
+        const delta=[['内容力','skill'],['精力','energy'],['口碑','rep'],['余额','money']].map(([label,key])=>({label,value:g[key]-before[key]})).filter(x=>x.value!==0);
+        g.last={title:viral?'这次，真的被看见了':views<1000?'小小的一步，也算前进':'这期解说发出去了',line:o.line,views,gained,extra,delta};
+        g.history.push({month:g.month,event:e.title,work:g.currentWork.title,choice:o.label,gained});g.phase='result';render();
+      }
+      card.addEventListener('click',event=>{
+        const target=event.target.closest('[data-index]');if(!target)return;const index=Number(target.dataset.index);const g=game;
+        if(g.phase==='start'){const niche=niches[index];if(!niche)return;g.niche=niche;g.skill=clamp(g.skill+niche.skill,0,100);g.energy=clamp(g.energy+niche.energy,0,100);g.rep=clamp(g.rep+niche.rep,0,100);g.month=1;g.phase='event';prepareMonth();render();}
+        else if(g.phase==='event')applyChoice(index);
+        else if(g.phase==='result'){if(g.month===12){g.phase='end'}else{g.month++;g.phase='event';prepareMonth()}render();}
+        else if(g.phase==='end'){game=makeGame();render();window.scrollTo({top:0,behavior:'smooth'});}
+      });
+      document.getElementById('reset').addEventListener('click',()=>{game=makeGame();render();window.scrollTo({top:0,behavior:'smooth'})});
+      game=makeGame();render();
+    })();
+  </script>
+</body>
+</html>
